@@ -7,9 +7,6 @@ import time
 import os
 
 os.system("cls" if os.name == "nt" else "clear")
-#These next ugly lines were made because the lib starts to erroring
-#out whenever spotify returns a 50X or 429 response code in the
-#playlist reorder method. When they fix that or wathever, I remove this.
 
 def get_playlist_music_list(music_iter):
     """Returns a list with formated music labels from a iterable with Spotify musics."""
@@ -30,6 +27,9 @@ def get_playlist_music_list(music_iter):
         music_list.append(music_label)
     return music_list
 
+#These next ugly lines were made because the lib starts to erroring
+#out whenever spotify returns a 50X or 429 response code in the
+#playlist reorder method. When they fix that or wathever, I remove this.
 session = requests.Session()
 class SpotifyFixed(spotipy.Spotify):
     def playlist_reorder_items(
