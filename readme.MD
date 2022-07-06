@@ -7,6 +7,7 @@ The sorting is made by these criterias, from the most to less significant:
 4. Disc number
 5. Track number
 6. Music name
+
 I've made this solely to fulfill my organization needs, but I decide to publish here so I can have a decent thing in my profile.
 
 ### Usage
