@@ -98,7 +98,7 @@ if playlist_musics["next"]:
         next_page = sp.next(current_page)
         playlist_musics["items"] += next_page["items"]
         if next_page["next"]:
-            corrent_page = next_page.copy()
+            current_page = next_page.copy()
         else:
             break
 print(f"Fetched a total of {len(playlist_musics['items'])} musics.")
@@ -113,6 +113,9 @@ if confirmation != "y":
     exit()
 
 current_pos = 0
+sleep_time = 1 + (len(music_list)/100) #From what I've seen while writting that script, Spotify takes more
+                                       #time to compute changes on bigger playlists, so this is made as a
+                                       #way to prevent errors in Spotify side (and consequently in ours lol)
 while True:
     while current_pos < len(sorted_music_list):
         music = music_list[current_pos]
@@ -122,9 +125,9 @@ while True:
             current_pos += 1
         else:
             sp.playlist_reorder_items(playlist["id"], current_pos, new_pos + 1)        
-            time.sleep(1)
+            time.sleep(sleep_time)
             sp.playlist_reorder_items(playlist["id"], new_pos - 1, current_pos)
-            time.sleep(1)
+            time.sleep(sleep_time)
             print(f"{current_pos + 1} -> {new_pos + 1} |||| {music}")
             music_list[current_pos], music_list[new_pos] = music_list[new_pos], music_list[current_pos]
     print("Theorically finished sorting. Checking within Spotify to see if all changes were apllied...")
@@ -140,7 +143,7 @@ while True:
             next_page = sp.next(current_page)
             playlist_musics["items"] += next_page["items"]
             if next_page["next"]:
-                corrent_page = next_page.copy()
+                current_page = next_page.copy()
             else:
                 break
     music_list = get_playlist_music_list(playlist_musics["items"])
