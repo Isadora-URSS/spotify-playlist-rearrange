@@ -152,4 +152,5 @@ while True:
         break
     else:
         print("Spotify didn't aplly all the changes, so the process will be repeated. Expect it to be much faster now.")
+        current_pos = 0
     
