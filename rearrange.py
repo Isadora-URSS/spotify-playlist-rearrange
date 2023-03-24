@@ -61,7 +61,7 @@ class SpotifyFixed(spotipy.Spotify):
 
 os.environ["SPOTIPY_CLIENT_ID"] = config.SPOTIPY_CLIENT_ID
 os.environ["SPOTIPY_CLIENT_SECRET"] = config.SPOTIPY_CLIENT_SECRET
-os.environ["SPOTIPY_REDIRECT_URI"] = "https://127.0.0.1:9090"
+os.environ["SPOTIPY_REDIRECT_URI"] = "https://127.0.0.1:5987"
 sp = SpotifyFixed(
     auth_manager = spotipy.oauth2.SpotifyOAuth(
         scope = ("playlist-read-collaborative", "playlist-modify-public",
@@ -71,7 +71,17 @@ sp = SpotifyFixed(
 user_data = sp.me()
 
 print(f"I've logged into Spotify as user {user_data['display_name']} with id {user_data['id']}\n")
-user_playlists = sp.current_user_playlists(limit = None)["items"]
+playlists = sp.current_user_playlists(limit = None)
+if playlists["next"]:
+    current_page = playlists.copy()
+    while True:
+        next_page = sp.next(current_page)
+        playlists["items"] += next_page["items"]
+        if next_page["next"]:
+            current_page = next_page.copy()
+        else:
+            break
+user_playlists = playlists["items"]
 for item in user_playlists[:]:
     if item["owner"]["id"] != user_data["id"]:
         user_playlists.remove(item)
