@@ -123,7 +123,7 @@ if confirmation != "y":
     exit()
 
 current_pos = 0
-sleep_time = 1 + (len(music_list)/100) #From what I've seen while writting that script, Spotify takes more
+sleep_time = 1 + (len(music_list)/200) #From what I've seen while writting that script, Spotify takes more
                                        #time to compute changes on bigger playlists, so this is made as a
                                        #way to prevent errors in Spotify side (and consequently in ours lol)
 while True:
